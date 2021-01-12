@@ -57,8 +57,8 @@ public class GithubRepoClass {
     private String svn_url;
     private String homepage;
     private int size;
-    private String stargazers_count;
-    private String watchers_count;
+    private int stargazers_count;
+    private int watchers_count;
     private String language;
     private boolean has_issues;
     private boolean has_projects;
@@ -69,18 +69,14 @@ public class GithubRepoClass {
     private String mirror_url;
     private boolean archived;
     private boolean disabled;
-    private boolean open_issues_count;
+    private int open_issues_count;
     private String license;
     private int forks;
     private int open_issues;
     private int watchers;
     private String default_branch;
 
-    public GithubRepoClass(){
-
-    }
-
-    public GithubRepoClass(int id, String node_id, String name, String full_name, String privacity, GithubOwnerClass owner, String html_url, String description, boolean fork, String url, String forks_url, String keys_url, String collaborations_url, String team_url, String hooks_url, String issue_events_url, String events_url, String assignees_url, String branches_url, String tags_url, String blobs_url, String git_tags_url, String git_refs_url, String trees_url, String statuses_url, String languages_url, String stargazers_url, String contributors_url, String subscribers_url, String subscription_url, String commits_url, String git_commits_url, String comments_url, String issue_comment_url, String contents_url, String compare_url, String merges_url, String archive_url, String downloads_url, String issues_url, String pulls_url, String milestones_url, String notifications_url, String labels_url, String releases_url, String deployments_url, String created_at, String updated_at, String pushed_at, String git_url, String ssh_url, String clone_url, String svn_url, String homepage, int size, String stargazers_count, String watchers_count, String language, boolean has_issues, boolean has_projects, boolean has_downloads, boolean has_wiki, boolean has_pages, int forks_count, String mirror_url, boolean archived, boolean disabled, boolean open_issues_count, String license, int forks, int open_issues, int watchers, String default_branch) {
+    public GithubRepoClass(int id, String node_id, String name, String full_name, String privacity, GithubOwnerClass owner, String html_url, String description, boolean fork, String url, String forks_url, String keys_url, String collaborations_url, String team_url, String hooks_url, String issue_events_url, String events_url, String assignees_url, String branches_url, String tags_url, String blobs_url, String git_tags_url, String git_refs_url, String trees_url, String statuses_url, String languages_url, String stargazers_url, String contributors_url, String subscribers_url, String subscription_url, String commits_url, String git_commits_url, String comments_url, String issue_comment_url, String contents_url, String compare_url, String merges_url, String archive_url, String downloads_url, String issues_url, String pulls_url, String milestones_url, String notifications_url, String labels_url, String releases_url, String deployments_url, String created_at, String updated_at, String pushed_at, String git_url, String ssh_url, String clone_url, String svn_url, String homepage, int size, int stargazers_count, int watchers_count, String language, boolean has_issues, boolean has_projects, boolean has_downloads, boolean has_wiki, boolean has_pages, int forks_count, String mirror_url, boolean archived, boolean disabled, int open_issues_count, String license, int forks, int open_issues, int watchers, String default_branch) {
         this.id = id;
         this.node_id = node_id;
         this.name = name;
@@ -596,19 +592,19 @@ public class GithubRepoClass {
         this.size = size;
     }
 
-    public String getStargazers_count() {
+    public int getStargazers_count() {
         return stargazers_count;
     }
 
-    public void setStargazers_count(String stargazers_count) {
+    public void setStargazers_count(int stargazers_count) {
         this.stargazers_count = stargazers_count;
     }
 
-    public String getWatchers_count() {
+    public int getWatchers_count() {
         return watchers_count;
     }
 
-    public void setWatchers_count(String watchers_count) {
+    public void setWatchers_count(int watchers_count) {
         this.watchers_count = watchers_count;
     }
 
@@ -692,11 +688,11 @@ public class GithubRepoClass {
         this.disabled = disabled;
     }
 
-    public boolean isOpen_issues_count() {
+    public int getOpen_issues_count() {
         return open_issues_count;
     }
 
-    public void setOpen_issues_count(boolean open_issues_count) {
+    public void setOpen_issues_count(int open_issues_count) {
         this.open_issues_count = open_issues_count;
     }
 

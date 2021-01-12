@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
@@ -29,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     private String username;
     private GithubUserClass user;
-    private List<GithubRepoClass> followers = new ArrayList<>();
+    private List<GithubRepoClass> repositories = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-    //private View recyclerView;
+    private RecyclerView recyclerView;
 
 
     @Override
@@ -44,20 +45,21 @@ public class MainActivity extends AppCompatActivity {
 
         final Intent getUser_Intent = getIntent();
         username = getUser_Intent.getExtras().getString("username");
-        Log.d("ERROOOOR",username);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
+        recyclerView = findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(layoutManager);
 
         APIIface = APIClient.getClient().create(APIInterface.class);
 
         getUser(username);
-        //getRepositorios(username);
+        getRepositorios(username);
     }
 
     public void getUser(final String username){
         Call<GithubUserClass> call = APIIface.getUser(username);
+
         call.enqueue(new Callback<GithubUserClass>() {
             @Override
             public void onResponse(Call<GithubUserClass> call, Response<GithubUserClass> response) {
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     TextView username = findViewById(R.id.UserText);
                     TextView followers = findViewById(R.id.FollowersText);
                     TextView following = findViewById(R.id.FollowingText);
-                    TextView repositories = findViewById(R.id.RepositoriesText);
+
                     ImageView pic = findViewById(R.id.imageView);
 
                     user = response.body();
@@ -75,15 +77,50 @@ public class MainActivity extends AppCompatActivity {
                     username.setText(user.getLogin());
                     followers.setText("Number of Followers: "+user.getFollowers());
                     following.setText("Number of Following: "+user.getFollowing());
-                    //repositories.setText("Number of Repositories: "+user.getPublic_repos());
+
                     Picasso.get().load(user.getAvatar_url()).into(pic);
+                    Log.d("error", "Salgo de la llamada");
                 }
             }
 
             @Override
             public void onFailure(Call<GithubUserClass> call, Throwable throwable) {
                 call.cancel();
+                Toast.makeText(getApplicationContext(), "El usuario: ," + username + "no se puede encontrar", Toast.LENGTH_LONG).show();
 
+            }
+        });
+
+    }
+
+    public void getRepositorios(final String u) {
+        Call<ArrayList<GithubRepoClass>> call = APIIface.getRepos(u);
+        Log.d("ERROR IDIOTA", "Hago la llamada");
+        call.enqueue(new Callback<ArrayList<GithubRepoClass>>() {
+            @Override
+            public void onResponse(Call<ArrayList<GithubRepoClass>> call, Response<ArrayList<GithubRepoClass>> response) {
+                if (!response.isSuccessful()) {
+
+                    progressBar.setVisibility(View.GONE);
+                    Log.d("error", getString(response.code()));
+                    Toast.makeText(getApplicationContext(), "El usuario: ," + u + "no se puede encontrar", Toast.LENGTH_LONG).show();
+                }
+                if (response.isSuccessful()) {
+
+                    repositories = response.body();
+                    TextView repositoriesText = findViewById(R.id.RepositoriesText);
+                    repositoriesText.setText("Number of Repositories: " + repositories.size());
+                    mAdapter = new MyRecyclerViewAdapter(repositories);
+                    recyclerView.setAdapter(mAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<GithubRepoClass>> call, Throwable throwable) {
+                Log.d("minim2TAG", throwable.getMessage());
+                call.cancel();
+
+                Toast.makeText(getApplicationContext(),  u + "No tiene repositorios", Toast.LENGTH_LONG).show();
             }
         });
     }
