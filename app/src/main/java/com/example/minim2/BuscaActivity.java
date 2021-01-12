@@ -32,12 +32,17 @@ public class BuscaActivity extends AppCompatActivity {
     }
 
     public void onClick(View v) {
+
+        user = getUser(v);
         openMainActivity();
     }
 
     public void openMainActivity(){
+
         Intent mainActivity = new Intent(this, MainActivity.class);
+        mainActivity.putExtra("username",this.user);
         startActivity(mainActivity);
+
     }
 
 }

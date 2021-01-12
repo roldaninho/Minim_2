@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -15,6 +16,7 @@ import android.widget.Toolbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     private String username;
     private GithubUserClass user;
-    //private List<GithubFollowers> followers = new ArrayList<>();
+    private List<GithubRepoClass> followers = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-    private View recyclerView;
+    //private View recyclerView;
 
 
     @Override
@@ -41,9 +43,10 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         final Intent getUser_Intent = getIntent();
-        username = getUser_Intent.getStringExtra("username");
+        username = getUser_Intent.getExtras().getString("username");
+        Log.d("ERROOOOR",username);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         recyclerView.setLayoutManager(layoutManager);
 
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     username.setText(user.getLogin());
                     followers.setText("Number of Followers: "+user.getFollowers());
                     following.setText("Number of Following: "+user.getFollowing());
-                    repositories.setText("Number of Repositories: "+user.getPublic_repos());
+                    //repositories.setText("Number of Repositories: "+user.getPublic_repos());
                     Picasso.get().load(user.getAvatar_url()).into(pic);
                 }
             }
